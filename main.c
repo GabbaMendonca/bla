@@ -411,12 +411,58 @@ int gravarPalestra(char nomePalestra[100], char campus[100], int dia, int mes,in
     }
 
 
-    fprintf(cadastroPalestra,"|%s|%s|%d|%d|%d|%d|%d| \r",nomePalestra,campus,dia,mes,ano,hora,minwwd);
+    fprintf(cadastroPalestra,"|%s|%s|%d|%d|%d|%d|%d| \r",nomePalestra,campus,dia,mes,ano,hora,min);
 
     fclose(cadastroPalestra);
 
 
 
+}
+
+int leiaPalestra(){
+    //variaveis
+    int n;
+    char texto[50];
+
+    FILE * cadastroPalestra;
+    //r= apenas le o arquivo
+    cadastroPalestra = fopen("cadastroPalestra.txt", "r");
+
+    if(cadastroPalestra == NULL ){
+        printf("arquivo nao encontrado");
+    }
+    //while para percorrer toda a lista
+    while(fgets(texto,50,cadastroPalestra) != NULL){
+        //chama a função separar, passando o texto como parametro
+        separar(texto);
+
+    }
+
+}
+
+int separar(char *entrada[]){
+    //variaveis
+    int i = 0;
+    //escolhe aonde vai fazer o corte
+    char delimitador[] = "|";
+    // onde seram  guardadas as palavras em vetor
+    char *palavras[100];
+
+    //faz o corte da palavra usando o texto e o delimitador
+    char *ptr = strtok(entrada,delimitador);
+
+    while (ptr != NULL)
+    {
+        //aloca os vetores dentro da variavel
+        palavras[i] = ptr;
+        printf ("%s\n",palavras[i]);
+
+        ptr = strtok (NULL, "|");
+        i++;
+    }
+    //teste
+
+    return palavras;
 }
 
 
@@ -713,7 +759,7 @@ void cadastrarPessoa()
             case 's':
             case 'S':
                 gravarPessoa( pessoa[numCadastro].cpf, pessoa[numCadastro].nome, pessoa[numCadastro].idade, pessoa[numCadastro].email,pessoa[numCadastro].categoria);
-                gravarEmail(pesso[numCadastro].email);
+                gravarEmail(pessoa[numCadastro].email);
                 printf("Dados gravados com sucesso !\n");
 
                 contadorDeCadastros++;
@@ -737,12 +783,12 @@ void cadastrarPessoa()
 }
 int gravarEmail(char email[100]){
     FILE *cadastrarEmail;
-    cadastroEmail = fopen("cadastrarEmail.txt","a");
-    if(cadastroEamil == NULL){
+    cadastrarEmail = fopen("cadastrarEmail.txt","a");
+    if(cadastrarEmail == NULL){
         printf("arquivo não encontrado");
 
     }
-    fprintf(cadastroEmail,"%s",email);
+    fprintf(cadastrarEmail,"%s|\r",email);
     fclose(cadastrarEmail);
 }
 int gravarPessoa(long cpf, char nome[100], int idade, char email[100],int categoria  ){
@@ -751,7 +797,7 @@ int gravarPessoa(long cpf, char nome[100], int idade, char email[100],int catego
     //arquivo texto
     FILE *cadastroPessoa;
     //a = se não existir arquivo ele cria, se ja existir ele guarda as informacoes sem substituir
-    cadastroPessoa = fopen("cadastropessoa.txt","a");
+    cadastroPessoa = fopen("cadastroPessoa.txt","a");
     if(cadastroPessoa == NULL){
         printf("nao encontrado");
     }
@@ -765,6 +811,28 @@ int gravarPessoa(long cpf, char nome[100], int idade, char email[100],int catego
 
 }
 
+
+int leiaPessoa(){
+    //variaveis
+    int n;
+    char texto[50];
+
+    FILE * cadastroPessoa;
+    //r= apenas le o arquivo
+    cadastroPessoa = fopen("cadastroPessoa.txt", "r");
+
+    if(cadastroPessoa == NULL ){
+        printf("arquivo nao encontrado");
+    }
+    //while para percorrer toda a lista
+    while(fgets(texto,50,cadastroPessoa) != NULL){
+        //chama a função separar, passando o texto como parametro
+        separar(texto);
+
+    }
+
+
+}
 
 
 /*
